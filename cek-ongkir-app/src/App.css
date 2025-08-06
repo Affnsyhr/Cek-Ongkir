@@ -1,0 +1,134 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f7f6;
+  color: #333;
+}
+
+/* App Container */
+.App {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.App-header h1 {
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+/* Form Styling */
+.form-container {
+  display: flex;
+  gap: 40px; /* Jarak antar kolom */
+  margin-bottom: 30px;
+}
+
+.form-column {
+  flex: 1; /* Membuat kedua kolom memiliki lebar yang sama */
+  display: flex;
+  flex-direction: column;
+}
+
+.form-column h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  width: 90px; /* Lebar label yang konsisten */
+  margin-right: 15px;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  flex: 1; /* Membuat input/select mengisi sisa ruang */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+.btn-hitung {
+  align-self: flex-end; /* Meletakkan tombol di ujung kanan kolom */
+  padding: 12px 25px;
+  border: none;
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px; /* Memberi sedikit jarak dari atas */
+}
+
+.btn-hitung:hover {
+  background-color: #333;
+}
+
+.btn-hitung:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+
+/* Hasil Ongkir Styling */
+.hasil-container {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.hasil-header, .hasil-row {
+  display: flex;
+  padding: 12px 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.hasil-header {
+  font-weight: bold;
+  font-size: 15px;
+  background-color: #fafafa;
+}
+
+.hasil-row:last-child {
+  border-bottom: none;
+}
+
+/* Pembagian lebar kolom untuk hasil */
+.hasil-col-1 {
+  flex: 3; /* Kolom layanan lebih lebar */
+}
+
+.hasil-col-2 {
+  flex: 1.5;
+  text-align: right;
+}
+
+.hasil-col-3 {
+  flex: 1;
+  text-align: right;
+}
+
+.hasil-col-1 strong {
+    margin-right: 5px;
+}
