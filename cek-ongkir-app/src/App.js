@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import OngkirForm from './components/OngkirForm';
-import HasilOngkir from './components/HasilOngkir';
-import { getProvinces, getCities, getDistricts, getSubdistricts, calculateCost } from './services/rajaOngkirService';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import OngkirForm from "./components/OngkirForm";
+import HasilOngkir from "./components/HasilOngkir";
+import {
+  getProvinces,
+  getCities,
+  getDistricts,
+  getSubdistricts,
+  calculateCost,
+} from "./services/rajaOngkirService";
+import "./App.css";
 
 function App() {
   // State untuk menyimpan list data dari API
@@ -16,16 +22,22 @@ function App() {
 
   // State untuk menyimpan nilai yang dipilih pengguna
   const [formData, setFormData] = useState({
-    originProvince: '', originCity: '', originDistrict: '', originSubdistrict: '',
-    destinationProvince: '', destinationCity: '', destinationDistrict: '', destinationSubdistrict: '',
+    originProvince: "",
+    originCity: "",
+    originDistrict: "",
+    originSubdistrict: "",
+    destinationProvince: "",
+    destinationCity: "",
+    destinationDistrict: "",
+    destinationSubdistrict: "",
     weight: 1000,
-    courier: 'jne'
+    courier: "jne",
   });
 
   // State untuk hasil & loading
   const [ongkirResults, setOngkirResults] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   // --- useEffect untuk memuat data awal ---
   useEffect(() => {
@@ -35,7 +47,7 @@ function App() {
         const data = await getProvinces();
         setProvinces(data.data || []);
       } catch (err) {
-        setError('Gagal memuat data provinsi.');
+        setError("Gagal memuat data provinsi.");
       }
     };
     loadProvinces();
@@ -48,11 +60,19 @@ function App() {
       try {
         const data = await getCities(formData.originProvince);
         setOriginCities(data.data || []);
-      } catch (err) { setError('Gagal memuat data kota.'); }
+      } catch (err) {
+        setError("Gagal memuat data kota.");
+      }
     };
     loadCities();
-    setFormData(prev => ({ ...prev, originCity: '', originDistrict: '', originSubdistrict: '' }));
-    setOriginDistricts([]); setOriginSubdistricts([]);
+    setFormData((prev) => ({
+      ...prev,
+      originCity: "",
+      originDistrict: "",
+      originSubdistrict: "",
+    }));
+    setOriginDistricts([]);
+    setOriginSubdistricts([]);
   }, [formData.originProvince]);
 
   useEffect(() => {
@@ -61,10 +81,16 @@ function App() {
       try {
         const data = await getDistricts(formData.originCity);
         setOriginDistricts(data.data || []);
-      } catch (err) { setError('Gagal memuat data kecamatan.'); }
+      } catch (err) {
+        setError("Gagal memuat data kecamatan.");
+      }
     };
     loadDistricts();
-    setFormData(prev => ({ ...prev, originDistrict: '', originSubdistrict: '' }));
+    setFormData((prev) => ({
+      ...prev,
+      originDistrict: "",
+      originSubdistrict: "",
+    }));
     setOriginSubdistricts([]);
   }, [formData.originCity]);
 
@@ -74,10 +100,12 @@ function App() {
       try {
         const data = await getSubdistricts(formData.originDistrict);
         setOriginSubdistricts(data.data || []);
-      } catch (err) { setError('Gagal memuat data kelurahan.'); }
+      } catch (err) {
+        setError("Gagal memuat data kelurahan.");
+      }
     };
     loadSubdistricts();
-    setFormData(prev => ({ ...prev, originSubdistrict: '' }));
+    setFormData((prev) => ({ ...prev, originSubdistrict: "" }));
   }, [formData.originDistrict]);
 
   // --- useEffect untuk dropdown berantai (TUJUAN) ---
@@ -87,11 +115,19 @@ function App() {
       try {
         const data = await getCities(formData.destinationProvince);
         setDestinationCities(data.data || []);
-      } catch (err) { setError('Gagal memuat data kota.'); }
+      } catch (err) {
+        setError("Gagal memuat data kota.");
+      }
     };
     loadCities();
-    setFormData(prev => ({ ...prev, destinationCity: '', destinationDistrict: '', destinationSubdistrict: '' }));
-    setDestinationDistricts([]); setDestinationSubdistricts([]);
+    setFormData((prev) => ({
+      ...prev,
+      destinationCity: "",
+      destinationDistrict: "",
+      destinationSubdistrict: "",
+    }));
+    setDestinationDistricts([]);
+    setDestinationSubdistricts([]);
   }, [formData.destinationProvince]);
 
   useEffect(() => {
@@ -100,10 +136,16 @@ function App() {
       try {
         const data = await getDistricts(formData.destinationCity);
         setDestinationDistricts(data.data || []);
-      } catch (err) { setError('Gagal memuat data kecamatan.'); }
+      } catch (err) {
+        setError("Gagal memuat data kecamatan.");
+      }
     };
     loadDistricts();
-    setFormData(prev => ({ ...prev, destinationDistrict: '', destinationSubdistrict: '' }));
+    setFormData((prev) => ({
+      ...prev,
+      destinationDistrict: "",
+      destinationSubdistrict: "",
+    }));
     setDestinationSubdistricts([]);
   }, [formData.destinationCity]);
 
@@ -113,41 +155,55 @@ function App() {
       try {
         const data = await getSubdistricts(formData.destinationDistrict);
         setDestinationSubdistricts(data.data || []);
-      } catch (err) { setError('Gagal memuat data kelurahan.'); }
+      } catch (err) {
+        setError("Gagal memuat data kelurahan.");
+      }
     };
     loadSubdistricts();
-    setFormData(prev => ({ ...prev, destinationSubdistrict: '' }));
+    setFormData((prev) => ({ ...prev, destinationSubdistrict: "" }));
   }, [formData.destinationDistrict]);
-
 
   // Handler untuk mengubah form
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   // Handler untuk submit
   const handleCalculate = async () => {
     setIsLoading(true);
-    setError('');
+    setError("");
     setOngkirResults(null);
 
     try {
+      // --- PERUBAHAN DI SINI ---
+      // Ubah nama kunci agar sesuai dengan yang diharapkan oleh API akhir.
       const params = {
-        originSubdistrictId: formData.originSubdistrict,
-        destinationSubdistrictId: formData.destinationSubdistrict,
-        weight: formData.weight,
-        courier: formData.courier
+        origin: formData.originSubdistrict,
+        destination: formData.destinationSubdistrict,
+        weight: parseInt(formData.weight, 10),
+        courier: formData.courier,
       };
+      // --- AKHIR PERUBAHAN ---
+
+      console.log("Params to send:", params);
+
       const results = await calculateCost(params);
-      setOngkirResults(results.data);
+       
+      if (results.meta.status === 'error') {
+        // Tangani pesan error dari API
+        setError(results.meta.message);
+        setOngkirResults(null);
+      } else {
+        setOngkirResults(results.data);
+      }
+
     } catch (err) {
-      setError(err.message || 'Gagal menghitung ongkir.');
+      setError(err.message || "Gagal menghitung ongkir.");
     } finally {
       setIsLoading(false);
     }
   };
-
 
   return (
     <div className="App">
@@ -159,8 +215,12 @@ function App() {
           formData={formData}
           data={{
             provinces,
-            originCities, originDistricts, originSubdistricts,
-            destinationCities, destinationDistricts, destinationSubdistricts
+            originCities,
+            originDistricts,
+            originSubdistricts,
+            destinationCities,
+            destinationDistricts,
+            destinationSubdistricts,
           }}
           onFormChange={handleFormChange}
           onCalculate={handleCalculate}
